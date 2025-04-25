@@ -20,12 +20,11 @@ class QuestionResponderPlugin(Star):
 
     @filter.regex(r".*([\w\u4e00-\u9fff\U0001f000-\U0001ffff])不\1.*")
     async def check_question(self, event: AiocqhttpMessageEvent):
-        """匹配‘*不*’疑问句（含汉字和emoji）并根据前字符随机回复"""
         sender_id = event.get_sender_id()
         message_str = event.message_str.strip()  # 去除首尾空白字符
-        # 使用正则提取 *不* 结构中的前字符或emoji
+
         match = re.match(r".*([\w\u4e00-\u9fff\U0001f000-\U0001ffff])不\1.*", message_str)
         if match:
-            char = match.group(1)  # 提取前字符或emoji，如“好”或“😊”
+            char = match.group(1) 
             response = random.choice([char, f"不{char}"])
             yield event.plain_result(response)
